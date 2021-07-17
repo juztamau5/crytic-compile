@@ -288,6 +288,12 @@ class CryticCompile:
             self._get_cached_offset_to_line(file)
 
         lines_delimiters = self._cached_offset_to_line[file]
+
+        # TODO: Why is offset out of bounds?
+        # For example, file size: 3029, s: 363, l: 3298
+        if offset >= len(lines_delimiters):
+            offset = len(lines_delimiters) - 1
+
         return lines_delimiters[offset]
 
     def get_global_offset_from_line(self, filename: Union[Filename, str], line: int) -> int:
